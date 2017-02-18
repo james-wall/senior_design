@@ -3,9 +3,9 @@
 %using 5 second epochs, compare first 20 epochs of each channel
 
 %obtain data and process it to remove channels 5 and 15 and filter noise
-%load('Ceeg1P.mat')
-%preData = EEGDataP;
-%data = processData(preData);
+load('Ceeg1P.mat')
+preData = EEGDataP;
+data = processData(preData);
 
 %obtain channels 1 and 2 from processed patient data
 c1 = data(:,1);
