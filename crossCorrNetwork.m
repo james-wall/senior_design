@@ -1,6 +1,7 @@
-function [ corr, comb ] = crossCorrNetwork( data, channels, epoch, epochNum )
-%input: data - entire patient's unprocessed data; epoch - time in seconds;
-%epochNum - number of epochs to analyze, from the first epoch
+function [ corr, comb ] = crossCorrNetwork( data, channels, epochLength, parameter, epochNum )
+%input: data - entire patient's unprocessed data; epochLength - time in seconds;
+%epochNum - number of epochs to analyze, from the first epoch, 
+%parameter - type of epoch selection, 'random' or 'consecutive'
 %channels - vector of chosen channels to compare
 comb = combnk(channels,2);
 numComb = size(comb,1);
@@ -18,15 +19,18 @@ for i=1:numComb
         c2data = data(:,c2);
         
         %For each channel: separate into epochs
+        switch parameter
+            case 'random'
+                [ e1, m1 ] = getEpoch( c1data, epochLength, 'random', epochNum);
+                [ e2, m2 ] = getEpoch( c2data, epochLength, 'random', epochNum);
+            case 'consecutive'
+                [ e1, m1 ] = getEpoch( c1data, epochLength, 'random', epochNum);
+                [ e2, m2 ] = getEpoch( c2data, epochLength, 'random', epochNum);
+            otherwise
+                warning('invalid parameter entries')
+        end
         
-        %select consecutive epochs determined by epochNum
-        c1Test = getEpoch(c1data,epoch);
-        c1Test1 = c1Test(:,1:epochNum);
-        c2Test = getEpoch(c2data,epoch);
-        c2Test1 = c2Test(:,1:epochNum);
-        [x numEpoch] = size(c1Test);
-        
-        corr(:,i) = crossCorr(c1Test1, c2Test1);
+        corr(:,i) = crossCorr(e1, e2);
         
     end
 end

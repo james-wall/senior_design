@@ -1,11 +1,9 @@
 function [ corr ] = crossCorr( v1, v2 )
-%input: v1 and v2 are data from two different channels
+%input: v1 and v2 are data matrices from two different channels
+%(assume each v1 and v2 are matrices of epochs, each column is an epoch)
 %output: a vector containing max correlation values from computing the cross-correlation
 %between each corresponding column of v1 and v2 
-%(assume each v1 and b2 are matrices of epochs, each column is an epoch)
-if sum(size(v1) == size(v2)) ~= 2
-    return;
-end
+
 
 [numSamples numIntervals] = size(v1);
 corr = zeros(numIntervals,1);
