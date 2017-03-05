@@ -20,18 +20,19 @@ for i = 1:numChannels
         %Avoid autocorrelation and redundancies
         if i == j
             correlations(i,j,1:numEpochs) = 0;
-        else
+        elseif i<j
             c1 = x(:,i);
             c2 = x(:,j);
             
-            cw1 = getEpoch(c1, epochTime);
-            cw2 = getEpoch(c2, epochTime);
-            windows1 = cw1(:,1:numEpochs);
-            windows2 = cw2(:,1:numEpochs);
+            [cw1,cw2] = getEpoch(c1,c2, epochTime, 'random',numEpochs);
+            %cw2 = getEpoch(c2, epochTime, 'random',numEpochs);
+            %windows1 = cw1(:,1:numEpochs);
+            %windows2 = cw2(:,1:numEpochs);
             
-            cur_corr = crossCorr(windows1, windows2);
+            cur_corr = crossCorr(cw1, cw2);
             
             correlations(i,j,1:numEpochs) = cur_corr;
+            correlations(j,i,1:numEpochs) = cur_corr;
         end
     end
 end
