@@ -1,0 +1,19 @@
+function [ thresholds ] = time_series_analysis( t1, threshold_value )
+%input: t1 is a time series array (currently in array form)
+%       threshold_value is the threshold_value each value in the array is
+%       being tested against
+%output: a vector containing a simple 0-1 bit pattern
+
+
+sizeInput  = size(t1);
+thresholds = zeros(sizeInput,1);
+
+for i = 1:sizeInput
+    if(v1(i) > threshold_value)
+        thresholds(i) = 1;
+    end
+end
+
+
+end
+
