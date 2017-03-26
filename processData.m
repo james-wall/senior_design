@@ -4,7 +4,13 @@ function [ p ] = processData( data )
 %output: patient's data matrix with channels 5 and 15 removed,
 %band pass filtered 0.1-50 Hz 
 
-actualData = [data(:,1:4) data(:,6:14) data(:,16:end)]; 
+actualData = [data(:,1:4) data(:,6:14) data(:,16:end)];
+dataLength = size(data);
+dataLength = dataLength(1);
+cutOff = 0.1*dataLength;
+startIndex = cutOff;
+endIndex = dataLength - cutOff;
+actualData = data(startIndex:endIndex,:);
 
 sampleRate = 250; % Hz
 cutOffFreq = 50; % Hz, check with Sina for correct cut-off frequency
